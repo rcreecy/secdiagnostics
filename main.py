@@ -41,7 +41,7 @@ scrollb = tk.Scrollbar(text_frame)
 scrollb.pack(side = RIGHT, fill = Y)
 
 output = tk.Text(text_frame, yscrollcommand=scrollb.set)
-output.config(state="normal", width=870, font=("Arial", 10), wrap="word", padx=5)
+output.config(state="normal", width=870, font=("Arial", 10), wrap="word", padx=5, pady=5)
 output.insert(INSERT, "Welcome to the Security Diagnostics Utility\nThis tool is used to estimate potential issues with a current installation of AV software\nThis will generate an EICAR test detection in your environment. The tool may appear hung for a few seconds, however, this is just it running its processes and tests.\n\n")
 output.pack()
 scrollb.config(command=output.yview)
@@ -52,7 +52,7 @@ start_button.pack()
 
 # When defining a rule to check, it must be passed into this stack to be output to the console
 def stack():
-    return("%s\n%s\n%s\n%s\n%s\n" % (rule1(),rule2(),rule3(),rule4(),rule5()))
+    return("%s\n%s\n%s\n%s\nWait time of 10 seconds implemented, to allow real time scanning time to pickup EICAR file detection\n%s\n" % (rule1(),rule2(),rule3(),rule4(),rule5()))
     p1 = Process(target = rule1)
     p1.start()
     p2 = Process(target = rule2)
@@ -94,7 +94,7 @@ def rule2():
 
 def rule3():
     cpu_use = str(psutil.cpu_percent())
-    return("Total System CPU usage: " + cpu_use)
+    return("Total System CPU usage: " + cpu_use + "%")
 
 
 def rule4():
@@ -115,9 +115,9 @@ def rule5():
     time.sleep(5)
     file = Path(DESKTOP + "\eicar.txt")
     if file.is_file():
-        return("Eicar file was NOT deleted, possible On-Access Scanner conflict")
+        return("** Eicar file was NOT deleted, possible On-Access Scanner conflict")
     else:
-        return("Eicar file not found, this likely indicates that the AV scanner sucessfully detected and removed it.")
+        return("** Eicar file not found, this likely indicates that the AV scanner sucessfully detected and removed it.")
         
 
 ##########################################################
