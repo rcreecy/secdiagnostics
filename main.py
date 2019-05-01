@@ -52,73 +52,101 @@ start_button.pack()
 
 # When defining a rule to check, it must be passed into this stack to be output to the console
 def stack():
-    return("%s\n%s\n%s\n%s\nWait time of 10 seconds implemented, to allow real time scanning time to pickup EICAR file detection\n%s\n" % (rule1(),rule2(),rule3(),rule4(),rule5()))
-    p1 = Process(target = rule1)
+    return("%s\n%s\n%s\n%s\nWait time of 10 seconds implemented, to allow real time scanning time to pickup EICAR file detection\n%s\n%s\n%s\n%s\n%s\n%s\n" % (rules.ref1(),rules.ref2(),rules.ref3(),rules.ref4(),rules.ref5(),rules.ref6(),rules.ref7(),rules.ref8(),rules.ref9(),rules.ref10()))
+    p1 = Process(target = rules.ref1)
     p1.start()
-    p2 = Process(target = rule2)
+    p2 = Process(target = rules.ref2)
     p2.start()
-    p3 = Process(target = rule3)
+    p3 = Process(target = rules.ref3)
     p3.start()
-    p4 = Process(target = rule4)
+    p4 = Process(target = rules.ref4)
     p4.start()
-    p5 = Process(target = rule5)
+    p5 = Process(target = rules.ref5)
     p5.start()
-
+    p6 = Process(target = rules.ref6)
+    p6.start()
+    p7 = Process(target = rules.ref7)
+    p7.start()
+    p8 = Process(target = rules.ref8)
+    p8.start()
+    p9 = Process(target = rules.ref9)
+    p9.start()
+    p10 = Process(target = rules.ref10)
+    p10.start()
 
 ##########################################################
 ##
 ##       This is the start of the rules scripts
 ##
 ##########################################################
-
-def rule1():
-    return("Computer Name: " + COMPUTER + "\nHost Name: " + HOST)
-    
-def checkIfMcShieldRunning():
-    processName = "mcshield"
-    #Iterate over the all the running process
-    for proc in psutil.process_iter():
-        try:
-            # Check if process name contains the given name string.
-            if processName.lower() in proc.name().lower():
-                return True
-        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-            pass
-    return False;
-
-def rule2():
-    if checkIfMcShieldRunning():
-        return('McShield is RUNNING')
-    else:
-        return('McShield is NOT RUNNING')
-
-def rule3():
-    cpu_use = str(psutil.cpu_percent())
-    return("Total System CPU usage: " + cpu_use + "%")
-
-
-def rule4():
-        path = DESKTOP
-        name = 'eicar.txt'  # Name of text file coerced with +.txt
-
-        try:
-            file = open(join(path, name),'w')   # Trying to create a new file or open one
-            file.write("X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*")
-            file.close()
-            return("Eicar written sucessfully")
-            pass
-        except:
-            return('Something went wrong writing the eicar! You may need to run the tool again.')
-            pass
-
-def rule5():
-    time.sleep(5)
-    file = Path(DESKTOP + "\eicar.txt")
-    if file.is_file():
-        return("** Eicar file was NOT deleted, possible On-Access Scanner conflict")
-    else:
-        return("** Eicar file not found, this likely indicates that the AV scanner sucessfully detected and removed it.")
+class rules():
+    def ref1():
+        return("Computer Name: " + COMPUTER + "\nHost Name: " + HOST)
         
+    def checkIfMcShieldRunning():
+        processName = "mcshield"
+        #Iterate over the all the running process
+        for proc in psutil.process_iter():
+            try:
+                # Check if process name contains the given name string.
+                if processName.lower() in proc.name().lower():
+                    return True
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                pass
+        return False;
+
+    def ref2():
+        if rules.checkIfMcShieldRunning():
+            return('McShield is RUNNING')
+        else:
+            return('McShield is NOT RUNNING')
+
+    def ref3():
+        cpu_use = str(psutil.cpu_percent())
+        return("Total System CPU usage: " + cpu_use + "%")
+
+
+    def ref4():
+            path = DESKTOP
+            name = 'eicar.txt'
+
+            try:
+                file = open(join(path, name),'w')   # Trying to create a new file or open one
+                file.write("X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*")
+                file.close()
+                return("Eicar written sucessfully")
+                pass
+            except:
+                return('Something went wrong writing the eicar! You may need to run the tool again.')
+                pass
+
+    def ref5():
+        time.sleep(5)
+        file = Path(DESKTOP + "\eicar.txt")
+        if file.is_file():
+            return("** Eicar file was NOT deleted, possible On-Access Scanner conflict")
+        else:
+            return("** Eicar file not found, this likely indicates that the AV scanner sucessfully detected and removed it.")
+
+    def ref6():
+        return("Rule 6 not implemented yet")
+        pass
+
+    def ref7():
+        return("Rule 7 not implemented yet")
+        pass
+
+    def ref8():
+        return("Rule 8 not implemented yet")
+        pass
+
+    def ref9():
+        return("Rule 9 not implemented yet")
+        pass
+
+    def ref10():
+        return("Rule 10 not implemented yet")
+        pass
 
 ##########################################################
 ##
