@@ -13,3 +13,8 @@
 * Rule to validate any network open listening ports
 * Come up with new rules??
 * Log Parsing based on known issue information
+
+Built on Python 3.7.2
+To build, simply clone the repo and run the main.py script. Requires a few dependencies.
+
+This is being built mostly to expand my python knowledge and skills
