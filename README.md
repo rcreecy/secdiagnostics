@@ -4,6 +4,7 @@
 ##### Current Functionality
 * Does a check of the service running (McAfee McShield)
 * Outputs the HostName and Computer Name (mostly for utilizing these variables later)
+* Current CPU usage total on system (** WIP: for any CPU usage over threshhold, also output violating PID/name **)
 * Plants an EICAR test file on the computers desktop path, waits 10 seconds, and checks again for the presence of the file to assess real time scanning functionality
 
 ##### Work in Progress
