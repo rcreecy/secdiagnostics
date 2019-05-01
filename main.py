@@ -9,6 +9,8 @@ from pathlib import Path
 
 root = tk.Tk()
 
+SHPATH = os.path.dirname(os.path.realpath(__file__))
+DESKTOP = os.path.expanduser("~\Desktop\\")
 COMPUTER = str(os.getenv('COMPUTERNAME'))
 HOST = str(os.getenv('HOSTNAME'))
 HEIGHT = 510
@@ -18,7 +20,7 @@ WIDTH = 900 # DONT FORGET TO CHANGE THE root.geometry
 root.resizable(width=False, height=False)
 root.title("Security Diagnostics Utility")
 root.geometry('900x510') # This will need to be changed if the above HEIGHT and WIDTH variables change
-root.wm_iconbitmap(r'C:\Users\rcree\Documents\Python\secdiagnostics\images\icon.ico')
+root.wm_iconbitmap(SHPATH + '\images\icon.ico')
 
 def output_text():
     output.insert(INSERT, stack())
@@ -27,7 +29,7 @@ def output_text():
 canvas = tk.Canvas(root, height=HEIGHT, width=WIDTH)
 canvas.pack()
 background = tk.Label(root)
-background_image = Image.open(r'C:\users\rcree\Documents\Python\secdiagnostics\images\bg.jpg')
+background_image = Image.open(SHPATH + '\images\\bg.jpg')
 background.background_image = ImageTk.PhotoImage(background_image)
 background['image'] = background.background_image
 background.place(relwidth=1, relheight=1)
@@ -39,7 +41,7 @@ scrollb = tk.Scrollbar(text_frame)
 scrollb.pack(side = RIGHT, fill = Y)
 
 output = tk.Text(text_frame, yscrollcommand=scrollb.set)
-output.config(state="normal", width=870, font=("Arial", 10), wrap="word")
+output.config(state="normal", width=870, font=("Arial", 10), wrap="word", padx=5)
 output.insert(INSERT, "Welcome to the Security Diagnostics Utility\nThis tool is used to estimate potential issues with a current installation of AV software\nThis will generate an EICAR test detection in your environment. The tool may appear hung for a few seconds, however, this is just it running its processes and tests.\n\n")
 output.pack()
 scrollb.config(command=output.yview)
@@ -96,7 +98,7 @@ def rule3():
 
 
 def rule4():
-        path = r"C:\users\rcree\Desktop"
+        path = DESKTOP
         name = 'eicar.txt'  # Name of text file coerced with +.txt
 
         try:
@@ -111,13 +113,12 @@ def rule4():
 
 def rule5():
     time.sleep(5)
-    file = Path(r"C:\users\rcree\Desktop\eicar.txt")
+    file = Path(DESKTOP + "\eicar.txt")
     if file.is_file():
         return("Eicar file was NOT deleted, possible On-Access Scanner conflict")
     else:
         return("Eicar file not found, this likely indicates that the AV scanner sucessfully detected and removed it.")
         
-    
 
 ##########################################################
 ##
