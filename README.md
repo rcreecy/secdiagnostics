@@ -1,6 +1,8 @@
 ## Security Diagnostics Utility
 #### The purpose of this tool is to identify possible errors with the compatible AV software in one click
 
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+
 #### Current Functionality
 * Does a check of the service running (McAfee McShield)
 * Outputs the HostName and Computer Name (mostly for utilizing these variables later)
