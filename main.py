@@ -35,6 +35,11 @@ def exit_command():
     if tk.messagebox.askokcancel("Quit", "Do you really want to quit?"):
         root.destroy()
 
+def about_program():
+    tk.messagebox.showinfo("About the Program", "Security Diagnostics Utility\n\nDesigned to test and ensure that AV software on a machine is active and enabled.\n\nCurrent functionality is very limited, and this is in no way a real tool.\n")
+
+def developer():
+    tk.messagebox.showinfo("About the Developer", "https://www.ryancreecy.com")
 
 def output_text_eicar():
     output.insert(INSERT, stack())
@@ -53,8 +58,8 @@ filemenu.add_command(label="Exit", command=exit_command)
 menubar.add_cascade(label="Options", menu=filemenu)
 
 aboutmenu = Menu(menubar, tearoff=0)
-aboutmenu.add_command(label="About the Program", command=donothing)
-aboutmenu.add_command(label="About the Developer", command=donothing)
+aboutmenu.add_command(label="About the Program", command=about_program)
+aboutmenu.add_command(label="About the Developer", command=developer)
 menubar.add_cascade(label="About", menu=aboutmenu)
 
 def eicardecide():
