@@ -1,26 +1,24 @@
-import sys, os, errno, winreg, psutil, time, pathlib
+import sys, os, errno, winreg, psutil, time, pathlib, socket, subprocess
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
+import tkinter.messagebox
+import tkinter.filedialog
 from PIL import Image, ImageTk
 from winreg import *
 from os.path import join
 from pathlib import Path
+from datetime import datetime
 
-root = tk.Tk()
+root = Tk()
 
 SHPATH = os.path.dirname(os.path.realpath(__file__))
 DESKTOP = os.path.expanduser("~\Desktop\\")
 COMPUTER = str(os.getenv('COMPUTERNAME'))
 HOST = str(os.getenv('HOSTNAME'))
-HEIGHT = 510
+HEIGHT = 530
 WIDTH = 900 # DONT FORGET TO CHANGE THE root.geometry
 
-# Window Configuration
-root.resizable(width=False, height=False)
-root.title("Security Diagnostics Utility")
-root.geometry('900x510') # This will need to be changed if the above HEIGHT and WIDTH variables change
-root.wm_iconbitmap(SHPATH + '\images\icon.ico')
 
 def output_text():
     output.insert(INSERT, stack())
@@ -50,9 +48,39 @@ start_button = tk.Button(background)
 start_button.config(text="Start Diagnostics", pady="10", padx="10", font=("Calibri", 13, "bold"), bg="#242424", fg="#ffffff", bd=0, command=output_text)
 start_button.pack()
 
+def donothing():
+    pass
+
+def save_command():
+    f = tkinter.filedialog.asksaveasfile(mode='w', defaultextension='.txt')
+    t = output.get(0.0, END)
+    try:
+        f.write(t.rstrip())
+    except:
+        showerror(title ="UPS", message="Could not save file")
+
+def exit_command():
+    if tk.messagebox.askokcancel("Quit", "Do you really want to quit?"):
+        root.destroy()
+
+menubar = Menu(root)
+eicar_onoff = BooleanVar()
+eicar_onoff.set(True)
+eicar_state = eicar_onoff.get()
+filemenu = Menu(menubar, tearoff=0)
+filemenu.add_command(label="Export", command=save_command)
+filemenu.add_checkbutton(label="Enable/Disable Eicar Testing", variable=eicar_onoff, onvalue=True, offvalue=False)
+filemenu.add_command(label="Exit", command=exit_command)
+menubar.add_cascade(label="Options", menu=filemenu)
+
+aboutmenu = Menu(menubar, tearoff=0)
+aboutmenu.add_command(label="About the Program", command=donothing)
+aboutmenu.add_command(label="About the Developer", command=donothing)
+menubar.add_cascade(label="About", menu=aboutmenu)
+
 # When defining a rule to check, it must be passed into this stack to be output to the console
 def stack():
-    return("%s\n%s\n%s\n%s\nWait time of 10 seconds implemented, to allow real time scanning time to pickup EICAR file detection\n%s\n%s\n%s\n%s\n%s\n%s\n" % (rules.ref1(),rules.ref2(),rules.ref3(),rules.ref4(),rules.ref5(),rules.ref6(),rules.ref7(),rules.ref8(),rules.ref9(),rules.ref10()))
+    return("%s\n%s\n%s\n%s\nWait time of 10 seconds implemented, to allow real time scanning time to pickup EICAR file detection\n%s\n\nOpen Ports on System (Scan on Localhost)\n%s\n\n%s\n%s\n%s\n%s\n" % (rules.ref1(),rules.ref2(),rules.ref3(),rules.ref4(),rules.ref5(),rules.ref6(),rules.ref7(),rules.ref8(),rules.ref9(),rules.ref10()))
     p1 = Process(target = rules.ref1)
     p1.start()
     p2 = Process(target = rules.ref2)
@@ -107,18 +135,17 @@ class rules():
 
 
     def ref4():
-            path = DESKTOP
-            name = 'eicar.txt'
-
-            try:
-                file = open(join(path, name),'w')   # Trying to create a new file or open one
-                file.write("X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*")
-                file.close()
-                return("Eicar written sucessfully")
-                pass
-            except:
-                return('Something went wrong writing the eicar! You may need to run the tool again.')
-                pass
+        path = DESKTOP
+        name = 'eicar.txt'
+        try:
+            file = open(join(path, name),'w')   # Trying to create a new file or open one
+            file.write("X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*")
+            file.close()
+            return("Eicar written sucessfully")
+            pass
+        except:
+            return('Something went wrong writing the eicar! You may need to run the tool again.')
+            pass
 
     def ref5():
         time.sleep(5)
@@ -129,8 +156,18 @@ class rules():
             return("** Eicar file not found, this likely indicates that the AV scanner sucessfully detected and removed it.")
 
     def ref6():
-        return("Rule 6 not implemented yet")
-        pass
+        localhost = "localhost"
+        ServerIP = socket.gethostbyname(localhost)
+        try:
+            for port in range(1,1025):  
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                result = sock.connect_ex((ServerIP, port))
+                if result == 0:
+                    return("Port {}:  Open").format(port)
+                sock.close()
+        except socket.error:
+            print("Couldn't connect to server")
+            sys.exit()
 
     def ref7():
         return("Rule 7 not implemented yet")
@@ -148,9 +185,16 @@ class rules():
         return("Rule 10 not implemented yet")
         pass
 
+
 ##########################################################
 ##
 ## Draw and create window
 ##
 ##########################################################
+# Window Configuration
+root.resizable(width=False, height=False)
+root.title("Security Diagnostics Utility")
+root.geometry('900x530') # This will need to be changed if the above HEIGHT and WIDTH variables change
+root.wm_iconbitmap(SHPATH + '\images\icon.ico')
+root.config(menu=menubar)
 root.mainloop()
