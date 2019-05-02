@@ -17,7 +17,6 @@ ___
 #### Work in Progress
 * Streamline rule creation by placing rules in seperate module and loop through them, outputting returns until end is reached
 * Rule to search for "value 3" in MSI installer logs, and output preceeding 10 lines and 5 post lines into console to identify any installation issues
-* Rule to validate any network open listening ports
 * Come up with new rules??
 * Log Parsing based on known issue information
 
