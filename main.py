@@ -20,8 +20,48 @@ HEIGHT = 530
 WIDTH = 900 # DONT FORGET TO CHANGE THE root.geometry
 
 
-def output_text():
+def donothing():
+    pass
+
+def save_command():
+    f = tkinter.filedialog.asksaveasfile(mode='w', defaultextension='.txt')
+    t = output.get(0.0, END)
+    try:
+        f.write(t.rstrip())
+    except:
+        showerror(title ="UPS", message="Could not save file")
+
+def exit_command():
+    if tk.messagebox.askokcancel("Quit", "Do you really want to quit?"):
+        root.destroy()
+
+
+def output_text_eicar():
     output.insert(INSERT, stack())
+
+def output_text_noeicar():
+    output.insert(INSERT, stack2())
+
+menubar = Menu(root)
+eicar_onoff = BooleanVar()
+eicar_onoff.set(True)
+eicar_state = eicar_onoff.get()
+filemenu = Menu(menubar, tearoff=0)
+filemenu.add_command(label="Export", command=save_command)
+filemenu.add_checkbutton(label="Enable/Disable Eicar Testing", variable=eicar_onoff, onvalue=True, offvalue=False)
+filemenu.add_command(label="Exit", command=exit_command)
+menubar.add_cascade(label="Options", menu=filemenu)
+
+aboutmenu = Menu(menubar, tearoff=0)
+aboutmenu.add_command(label="About the Program", command=donothing)
+aboutmenu.add_command(label="About the Developer", command=donothing)
+menubar.add_cascade(label="About", menu=aboutmenu)
+
+def eicardecide():
+    if eicar_onoff.get():
+        output_text_eicar()
+    else:
+        output_text_noeicar()
 
 # Background image
 canvas = tk.Canvas(root, height=HEIGHT, width=WIDTH)
@@ -45,42 +85,38 @@ output.pack()
 scrollb.config(command=output.yview)
 
 start_button = tk.Button(background)
-start_button.config(text="Start Diagnostics", pady="10", padx="10", font=("Calibri", 13, "bold"), bg="#242424", fg="#ffffff", bd=0, command=output_text)
+start_button.config(text="Start Diagnostics", pady="10", padx="10", font=("Calibri", 13, "bold"), bg="#242424", fg="#ffffff", bd=0, command=eicardecide)
 start_button.pack()
 
-def donothing():
-    pass
 
-def save_command():
-    f = tkinter.filedialog.asksaveasfile(mode='w', defaultextension='.txt')
-    t = output.get(0.0, END)
-    try:
-        f.write(t.rstrip())
-    except:
-        showerror(title ="UPS", message="Could not save file")
-
-def exit_command():
-    if tk.messagebox.askokcancel("Quit", "Do you really want to quit?"):
-        root.destroy()
-
-menubar = Menu(root)
-eicar_onoff = BooleanVar()
-eicar_onoff.set(True)
-eicar_state = eicar_onoff.get()
-filemenu = Menu(menubar, tearoff=0)
-filemenu.add_command(label="Export", command=save_command)
-filemenu.add_checkbutton(label="Enable/Disable Eicar Testing", variable=eicar_onoff, onvalue=True, offvalue=False)
-filemenu.add_command(label="Exit", command=exit_command)
-menubar.add_cascade(label="Options", menu=filemenu)
-
-aboutmenu = Menu(menubar, tearoff=0)
-aboutmenu.add_command(label="About the Program", command=donothing)
-aboutmenu.add_command(label="About the Developer", command=donothing)
-menubar.add_cascade(label="About", menu=aboutmenu)
 
 # When defining a rule to check, it must be passed into this stack to be output to the console
 def stack():
-    return("%s\n%s\n%s\n%s\nWait time of 10 seconds implemented, to allow real time scanning time to pickup EICAR file detection\n%s\n\nOpen Ports on System (Scan on Localhost)\n%s\n\n%s\n%s\n%s\n%s\n" % (rules.ref1(),rules.ref2(),rules.ref3(),rules.ref4(),rules.ref5(),rules.ref6(),rules.ref7(),rules.ref8(),rules.ref9(),rules.ref10()))
+    return("%s\n%s\n%s\n\n%s\nWait time of 10 seconds implemented, to allow real time scanning time to pickup EICAR file detection\n%s\n\nOpen Ports on System (Scan on Localhost)\n%s\n\n%s\n%s\n%s\n%s\n" % (rules.ref1(),rules.ref2(),rules.ref3(),rules.ref4(),rules.ref5(),rules.ref6(),rules.ref7(),rules.ref8(),rules.ref9(),rules.ref10()))
+    p1 = Process(target = rules.ref1)
+    p1.start()
+    p2 = Process(target = rules.ref2)
+    p2.start()
+    p3 = Process(target = rules.ref3)
+    p3.start()
+    p4 = Process(target = rules.ref4)
+    p4.start()
+    p5 = Process(target = rules.ref5)
+    p5.start()
+    p6 = Process(target = rules.ref6)
+    p6.start()
+    p7 = Process(target = rules.ref7)
+    p7.start()
+    p8 = Process(target = rules.ref8)
+    p8.start()
+    p9 = Process(target = rules.ref9)
+    p9.start()
+    p10 = Process(target = rules.ref10)
+    p10.start()
+
+# When defining a rule to check, it must be passed into this stack to be output to the console
+def stack2():
+    return("Eicar test was disabled through the menu bar. To Re-Enable, you can do so through the 'Options' menu.\n%s\n%s\n%s\n\n\n\nOpen Ports on System (Scan on Localhost)\n%s\n\n%s\n%s\n%s\n%s\n" % (rules.ref1(),rules.ref2(),rules.ref3(),rules.ref6(),rules.ref7(),rules.ref8(),rules.ref9(),rules.ref10()))
     p1 = Process(target = rules.ref1)
     p1.start()
     p2 = Process(target = rules.ref2)
@@ -170,8 +206,26 @@ class rules():
             sys.exit()
 
     def ref7():
-        return("Rule 7 not implemented yet")
-        pass
+        # infile = r"C:\ProgramData\McAfee\Endpoint Security\Logs\EndpointSecurityPlatform_Errors.log"
+
+        # important = []
+        # keep_phrases = ["AMSI.AMSI.Error",
+        #             "Uncaught Error:"]
+
+        # with open(infile) as f:
+        #     f = f.readlines()
+
+        # for line in f:
+        #     for phrase in keep_phrases:
+        #         if phrase in line:
+        #             important.append(line)
+        #     break
+
+        # return(important)
+        with open(r"C:\ProgramData\McAfee\Endpoint Security\Logs\EndpointSecurityPlatform_Errors.log") as f:
+            for line in f:
+                if "AMSI.AMSI.Error" in line:
+                    return("\n" + line)
 
     def ref8():
         return("Rule 8 not implemented yet")
