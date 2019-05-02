@@ -80,7 +80,7 @@ scrollb.pack(side = RIGHT, fill = Y)
 
 output = tk.Text(text_frame, yscrollcommand=scrollb.set)
 output.config(state="normal", width=870, font=("Arial", 10), wrap="word", padx=5, pady=5)
-output.insert(INSERT, "Welcome to the Security Diagnostics Utility\nThis tool is used to estimate potential issues with a current installation of AV software\nThis will generate an EICAR test detection in your environment. The tool may appear hung for a few seconds, however, this is just it running its processes and tests.\n\n")
+output.insert(INSERT, "Welcome to the Security Diagnostics Utility\nThis tool is used to estimate potential issues with a current installation of AV software\nThis will generate an EICAR test detection in your environment. (This can be disabled through the 'Options' menu)\nThe tool may appear hung for a few seconds, however, this is just it running its processes and tests.\n\n")
 output.pack()
 scrollb.config(command=output.yview)
 

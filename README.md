@@ -10,6 +10,7 @@
 * Plants an EICAR test file on the computers desktop path, waits 10 seconds, and checks again for the presence of the file to assess real time scanning 
   * EICAR testing can be disabled/enabled through the options menu, to prevent noisy threat events occuring
 * Log Parsing - Still WIP, however, but the core premise of being able to output lines from logs containing certain phrases should be relatively easy. Will be getting more complex as time goes on
+* Ability to export the results from the Text box to a Text file through a File Dialog
 
 
 
